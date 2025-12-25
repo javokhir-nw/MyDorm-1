@@ -54,4 +54,8 @@ public class AuthService {
         dto.setToken(jwtService.generateToken(user));
         return dto;
     }
+
+    public Boolean checkExitUsername(String userName) {
+       return userRepository.existByUsername(null,userName);
+    }
 }

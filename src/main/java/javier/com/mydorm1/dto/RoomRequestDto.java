@@ -14,5 +14,6 @@ public class RoomRequestDto {
     private String number;
     private String name;
     private Long floorId;
+    private Long roomTypeId;
     private Boolean isRoom = TRUE;
 }

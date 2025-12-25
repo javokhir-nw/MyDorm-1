@@ -6,6 +6,7 @@ import javier.com.mydorm1.dto.RoomRequestDto;
 import javier.com.mydorm1.model.Room;
 import javier.com.mydorm1.repo.FloorRepository;
 import javier.com.mydorm1.repo.RoomRepository;
+import javier.com.mydorm1.repo.RoomTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.coyote.BadRequestException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final FloorRepository floorRepository;
+    private final RoomTypeRepository roomTypeRepository;
 
     public String createOrUpdate(RoomRequestDto dto) {
         Long id = dto.getId();
@@ -36,6 +38,13 @@ public class RoomService {
         String name = dto.getName();
         if (name != null) {
             room.setName(name);
+        }
+
+        Long roomTypeId = dto.getRoomTypeId();
+        if (roomTypeId != null) {
+            room.setRoomType(roomTypeRepository.findById(roomTypeId).orElseThrow(() -> new EntityNotFoundException("Room type with id " + roomTypeId + " not found")));
+        } else {
+            room.setRoomType(roomTypeRepository.findByCode("bedroom"));
         }
 
         Long floorId = dto.getFloorId();

@@ -36,5 +36,5 @@ public class Room {
     private Floor floor;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status =  Status.ACTIVE;
 }

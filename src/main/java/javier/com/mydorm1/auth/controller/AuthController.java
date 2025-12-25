@@ -8,10 +8,7 @@ import javier.com.mydorm1.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +24,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody AuthRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @GetMapping("/check-exist-username")
+    public ResponseEntity<Boolean> checkExistUsername(@RequestParam String username) {
+        return ResponseEntity.ok(authService.checkExitUsername(username));
     }
 }

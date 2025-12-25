@@ -14,4 +14,7 @@ public interface RoomTypeRepository extends JpaRepository<RoomType, Long> {
         where id = ?1
         """)
     void changeStatusToDeleted(Long id);
+
+    @Query("select rt from RoomType rt where lower(rt.code) = lower(?1) ")
+    RoomType findByCode(String bedroom);
 }

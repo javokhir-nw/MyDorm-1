@@ -18,5 +18,7 @@ public class RoomType {
     private String name;
     private String description;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status =  Status.ACTIVE;
+    @Column(name = "code")
+    private String code;
 }
