@@ -35,6 +35,11 @@ public class RoomService {
             room.setName(number);
         }
 
+        Integer capacity = dto.getCapacity();
+        if (capacity != null){
+            room.setCapacity(capacity);
+        }
+
         String name = dto.getName();
         if (name != null) {
             room.setName(name);

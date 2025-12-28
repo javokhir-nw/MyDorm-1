@@ -33,7 +33,7 @@ public class RoomTypeController {
         return ResponseEntity.ok(roomTypeService.deleteById(id));
     }
 
-    @PostMapping("/list")
+    @GetMapping("/list")
     @PreAuthorize("hasAuthority('get list')")
     public ResponseEntity<List<RoomTypeDto>> getList(){
         return ResponseEntity.ok(roomTypeService.getList());

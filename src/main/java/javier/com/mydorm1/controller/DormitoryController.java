@@ -28,7 +28,7 @@ public class DormitoryController {
 
     @GetMapping("/get/{id}")
     @PreAuthorize("hasAuthority('get dorm-by-id')")
-    public ResponseEntity<DormResponseDto> get(@PathVariable("id") Long id){
+    public ResponseEntity<DormResponseDto> get(@PathVariable Long id){
         return ResponseEntity.ok(dormService.getById(id));
     }
 

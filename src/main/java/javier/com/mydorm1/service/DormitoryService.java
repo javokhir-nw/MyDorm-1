@@ -1,6 +1,7 @@
 package javier.com.mydorm1.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import javier.com.mydorm1.auth.model.Status;
 import javier.com.mydorm1.auth.repo.UserRepository;
 import javier.com.mydorm1.dto.*;
@@ -26,6 +27,7 @@ public class DormitoryService {
     private final DormitoryRepository dormitoryRepository;
     private final FloorRepository floorRepository;
     private final DormMapper dormMapper;
+    private final UserRepository userRepository;
     private final Utils utils;
 
     public String createOrUpdate(DormRequestDto dto) {
@@ -41,7 +43,12 @@ public class DormitoryService {
         if(name!=null){
             dormitory.setName(name);
         }
-        dormitory.setOwner(utils.getCurrentUser());
+        Long ownerId = dto.getOwnerId();
+        if (ownerId == null){
+            dormitory.setOwner(utils.getCurrentUser());
+        } else {
+            dormitory.setOwner(userRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("User is not found by id " + ownerId)));
+        }
         dormitoryRepository.save(dormitory);
         return "SUCCESS_SAVED";
     }
@@ -73,6 +80,7 @@ public class DormitoryService {
                 .build();
     }
 
+    @Transactional
     public String delete(Long id) {
         dormitoryRepository.changeStatusToDeleted(id);
         return "SUCCESS_DELETED";

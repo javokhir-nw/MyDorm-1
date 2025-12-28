@@ -1,6 +1,7 @@
 package javier.com.mydorm1.repo;
 
 import jakarta.persistence.*;
+import javier.com.mydorm1.auth.model.Status;
 import javier.com.mydorm1.auth.model.User;
 import javier.com.mydorm1.model.Dormitory;
 import lombok.AllArgsConstructor;
@@ -27,4 +28,7 @@ public class Floor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dormitory_id")
     private Dormitory dormitory;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ACTIVE;
 }

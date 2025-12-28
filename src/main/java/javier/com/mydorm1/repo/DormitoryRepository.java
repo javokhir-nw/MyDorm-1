@@ -15,7 +15,7 @@ public interface DormitoryRepository extends JpaRepository<Dormitory,Long> {
 
     @Query(
         """
-        select d from Dormitory d where (?1 is null or d.name ilike %?1%)
+        select d from Dormitory d where d.status = 'ACTIVE' and (?1 is null or d.name ilike %?1%)
         """
     )
     Page<Dormitory> findAll(String value, Pageable pageable);

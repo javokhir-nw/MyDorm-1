@@ -21,7 +21,7 @@ public class FloorController {
         return ResponseEntity.ok(floorService.createOrUpdate(dto));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @PreAuthorize("hasAuthority('update floor')")
     public ResponseEntity<String> update(@RequestBody FloorRequestDto dto){
         return ResponseEntity.ok(floorService.update(dto));
@@ -29,13 +29,19 @@ public class FloorController {
 
     @PostMapping("/list/{dormId}")
     @PreAuthorize("hasAuthority('get floor-list')")
-    public ResponseEntity<PageWrapper> getAll(@PathVariable("dormId") Long dormId,@RequestBody Pagination<Search> pagination){
+    public ResponseEntity<PageWrapper> getAll(@PathVariable Long dormId, @RequestBody Pagination<Search> pagination){
         return ResponseEntity.ok(floorService.getList(dormId,pagination));
     }
 
     @GetMapping("/get/{id}")
     @PreAuthorize("hasAuthority('get floor-by-id')")
-    public ResponseEntity<FloorResponseDto> getById(@PathVariable("id") Long id){
+    public ResponseEntity<FloorResponseDto> getById(@PathVariable Long id){
         return ResponseEntity.ok(floorService.getById(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority('delete floor')")
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        return ResponseEntity.ok(floorService.deleteById(id));
     }
 }
