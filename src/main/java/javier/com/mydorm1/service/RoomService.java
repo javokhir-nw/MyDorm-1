@@ -2,7 +2,7 @@ package javier.com.mydorm1.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import javier.com.mydorm1.auth.model.Status;
-import javier.com.mydorm1.dto.RoomRequestDto;
+import javier.com.mydorm1.dto.*;
 import javier.com.mydorm1.model.Room;
 import javier.com.mydorm1.repo.FloorRepository;
 import javier.com.mydorm1.repo.RoomRepository;
@@ -10,7 +10,11 @@ import javier.com.mydorm1.repo.RoomTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +78,13 @@ public class RoomService {
     public String deleteById(Long id) {
         roomRepository.changeStatusToDeleteById(id);
         return "SUCCESS_DELETED";
+    }
+
+    public Room findEntityById(Long roomId) {
+        return roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room is not found by id " + roomId));
+    }
+
+    public List<RoomResponseDto> getList(Long floorId) {
+        return roomRepository.findByFloorId(floorId).stream().map(RoomResponseDto::new).toList();
     }
 }

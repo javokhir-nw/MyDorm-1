@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/check-exist-username")
-    public ResponseEntity<Boolean> checkExistUsername(@RequestParam String username) {
-        return ResponseEntity.ok(authService.checkExitUsername(username));
+    public ResponseEntity<Boolean> checkExistUsername(@RequestParam String username, @RequestParam(required = false) Long id) {
+        return ResponseEntity.ok(authService.checkExitUsername(username,id));
     }
 }

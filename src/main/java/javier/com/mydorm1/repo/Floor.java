@@ -29,6 +29,8 @@ public class Floor {
     @JoinColumn(name = "dormitory_id")
     private Dormitory dormitory;
 
+    private String floorTelegramIdentity;
+
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 }

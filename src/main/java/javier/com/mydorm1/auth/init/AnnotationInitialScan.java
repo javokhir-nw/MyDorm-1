@@ -34,6 +34,8 @@ public class AnnotationInitialScan {
     String roleAdminCode;
     @Value("${initial.role-user.code}")
     String roleUserCode;
+    @Value("${initial.role-captain.code}")
+    String roleCaptainCode;
     @Value("${initial.admin.username}")
     String adminUsername;
     @Value("${initial.user.username}")
@@ -53,6 +55,7 @@ public class AnnotationInitialScan {
         startPerm();
         Role adminRole = createRole(roleAdminCode,TRUE);
         Role userRole = createRole(roleUserCode,FALSE);
+        Role roleCaptain = createRole(roleCaptainCode, FALSE);
         createUser(adminUsername,adminRole,adminPassword);
         createUser(userUsername,userRole,userPassword);
     }

@@ -16,5 +16,8 @@ public class UserRequestDto {
     private String password;
     private String telegramUsername;
     private String phone;
-
+    private Long roleId;
+    private Long dormId;
+    private Long floorId;
+    private Long roomId;
 }

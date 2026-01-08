@@ -58,6 +58,19 @@
 
         <!-- todo jwt end       -->
 
+        <!-- todo telegram start  -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-spring-boot-starter</artifactId>
+            <version>6.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-abilities</artifactId>
+            <version>6.7.0</version>
+        </dependency>
+        <!-- todo telegram end  -->
+
         <!-- todo mapstruct start       -->
         <dependency>
             <groupId>org.mapstruct</groupId>

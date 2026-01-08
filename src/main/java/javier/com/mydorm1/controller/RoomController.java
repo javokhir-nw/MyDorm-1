@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/room")
@@ -31,5 +33,11 @@ public class RoomController {
     @PreAuthorize("hasAuthority('delete room')")
     public ResponseEntity<String> delete(@PathVariable Long id){
         return ResponseEntity.ok(roomService.deleteById(id));
+    }
+
+    @GetMapping("/list/{floorId}")
+    @PreAuthorize("hasAuthority('get room-list')")
+    public ResponseEntity<List<RoomResponseDto>> getAll(@PathVariable Long floorId){
+        return ResponseEntity.ok(roomService.getList(floorId));
     }
 }

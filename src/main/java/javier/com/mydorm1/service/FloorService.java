@@ -68,11 +68,15 @@ public class FloorService {
     }
 
     public FloorResponseDto getById(Long id) {
-        Floor floor = floorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Floor is not found"));
+        Floor floor = getEntityById(id);
         FloorResponseDto dto = new FloorResponseDto(floor);
         List<RoomResponseDto> rooms = roomRepository.findByFloorId(id).stream().map(RoomResponseDto::new).toList();
         dto.setRooms(rooms);
         return dto;
+    }
+
+    public Floor getEntityById(Long id){
+        return floorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Floor is not found"));
     }
 
     @Transactional

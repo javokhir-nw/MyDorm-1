@@ -18,11 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import static java.lang.Boolean.FALSE;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final PasswordEncoder passwordEncoder;
     @Value("${initial.role-user.code}")
     private String roleUserCode;
     private final AuthenticationManager authenticationManager;
@@ -40,7 +41,7 @@ public class AuthService {
         User orUpdateUser = userMapper.createOrUpdateUser(userDto, null);
         orUpdateUser.getRoles().add(roleRepository.findByCode(roleUserCode));
         orUpdateUser = userRepository.save(orUpdateUser);
-        UserDto dto = userMapper.toDto(orUpdateUser);
+        UserDto dto = userMapper.toDto(orUpdateUser, FALSE);
         dto.setToken(jwtService.generateToken(orUpdateUser));
         return dto;
     }
@@ -50,12 +51,12 @@ public class AuthService {
         String password = userDto.getPassword();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         User user = userRepository.findByUsername(username);
-        UserDto dto = userMapper.toDto(user);
+        UserDto dto = userMapper.toDto(user,FALSE);
         dto.setToken(jwtService.generateToken(user));
         return dto;
     }
 
-    public Boolean checkExitUsername(String userName) {
-       return userRepository.existByUsername(null,userName);
+    public Boolean checkExitUsername(String userName,Long id) {
+       return userRepository.existByUsername(id,userName);
     }
 }

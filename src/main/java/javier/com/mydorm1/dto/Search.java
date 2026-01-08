@@ -9,4 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Search {
     private String value;
+    private Long dormId;
+    private Long floorId;
+    private Long roomId;
 }

@@ -1,5 +1,6 @@
 package javier.com.mydorm1.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import javier.com.mydorm1.auth.model.Permission;
 import javier.com.mydorm1.auth.model.Role;
@@ -19,6 +20,7 @@ import static java.lang.Boolean.TRUE;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     private Long id;
     private String firstName;
@@ -34,4 +36,10 @@ public class UserDto {
     private List<Long> roleIds = new ArrayList<>();
     private List<Permission> permissions = new ArrayList<>();
     private Status status;
+    private Long dormId;
+    private String dormName;
+    private Long floorId;
+    private String floorNumber;
+    private Long roomId;
+    private String roomNumber;
 }

@@ -7,7 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {
         "javier.com.mydorm1",
-        "javier.com.mydorm1.auth"
+        "javier.com.mydorm1.auth",
+        "javier.com.mydorm1.telegram",
 })
 public class MyDorm1Application {
 

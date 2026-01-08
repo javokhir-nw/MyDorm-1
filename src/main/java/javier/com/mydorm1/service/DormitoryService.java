@@ -85,4 +85,8 @@ public class DormitoryService {
         dormitoryRepository.changeStatusToDeleted(id);
         return "SUCCESS_DELETED";
     }
+
+    public Dormitory findEntityById(Long dormId) {
+        return dormitoryRepository.findById(dormId).orElseThrow(() -> new EntityNotFoundException("Dormitory not found by id " + dormId));
+    }
 }
