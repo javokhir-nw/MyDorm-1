@@ -2,7 +2,7 @@ package javier.com.mydorm1.dto;
 
 import javier.com.mydorm1.auth.model.User;
 import javier.com.mydorm1.model.Dormitory;
-import javier.com.mydorm1.repo.Floor;
+import javier.com.mydorm1.model.Floor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

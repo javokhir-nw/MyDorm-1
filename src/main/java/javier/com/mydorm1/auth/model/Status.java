@@ -6,5 +6,11 @@ public enum Status {
     DELETED,
 
     PRESENT,
-    ABSENT
+    ABSENT,
+
+    SENT_ROOM,
+    SENT_FNAME,
+    SENT_LNAME,
+    SENT_MNAME,
+    SENT_PNUMBER
 }

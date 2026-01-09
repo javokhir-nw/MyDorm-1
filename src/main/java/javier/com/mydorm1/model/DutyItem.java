@@ -12,19 +12,23 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "attandences")
-public class Attendance {
+@Table(name = "duty_items")
+public class DutyItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String absentUserIds;
+    private String dutyUserIds;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "floor_id")
-    private Floor floor;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @ManyToOne
+    @JoinColumn(name = "duty_id")
+    private Duty duty;
 
     @CreatedDate
-    private Date createdDate;
+    private Date createdDate = new Date();
 }

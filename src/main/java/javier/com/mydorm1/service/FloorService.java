@@ -5,7 +5,7 @@ import jakarta.transaction.Transactional;
 import javier.com.mydorm1.auth.model.Status;
 import javier.com.mydorm1.auth.repo.UserRepository;
 import javier.com.mydorm1.dto.*;
-import javier.com.mydorm1.model.Room;
+import javier.com.mydorm1.model.Floor;
 import javier.com.mydorm1.repo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

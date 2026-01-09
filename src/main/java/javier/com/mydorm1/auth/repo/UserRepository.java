@@ -61,4 +61,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select count(u) > 0 from User u where (u.telegramId = ?1 or u.telegramUsername = ?2)")
     Boolean existByTelegramUsernameAndTelegramId(Long userId, String userName);
+
+    @Query("select u from User u left join fetch u.room where u.floor.id = ?1 order by u.room.number ")
+    List<User> findAllPresentUsers(Long floorId);
 }

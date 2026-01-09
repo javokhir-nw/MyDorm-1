@@ -12,4 +12,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     @Query("select count(a.id) > 0 from Attendance a where a.floor.id = ?1 and date(a.createdDate) = date(?2)")
     boolean hasCreatedTodayAttendance(Long floorId, Date date);
+
+    @Query("select coalesce(a.absentUserIds,'') from Attendance a where a.floor.id = ?1 and date(a.createdDate) = date(?2)")
+    String getAbsentUsersString(Long floorId, Date date);
 }

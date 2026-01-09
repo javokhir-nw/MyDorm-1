@@ -4,7 +4,7 @@ package javier.com.mydorm1.auth.model;
 import jakarta.persistence.*;
 import javier.com.mydorm1.model.Dormitory;
 import javier.com.mydorm1.model.Room;
-import javier.com.mydorm1.repo.Floor;
+import javier.com.mydorm1.model.Floor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static java.lang.Boolean.FALSE;

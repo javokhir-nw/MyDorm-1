@@ -6,7 +6,7 @@ import javier.com.mydorm1.auth.model.Role;
 import javier.com.mydorm1.auth.model.User;
 import javier.com.mydorm1.model.Dormitory;
 import javier.com.mydorm1.model.Room;
-import javier.com.mydorm1.repo.Floor;
+import javier.com.mydorm1.model.Floor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

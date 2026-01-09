@@ -1,8 +1,8 @@
 package javier.com.mydorm1.repo;
 
 import javier.com.mydorm1.auth.model.Status;
+import javier.com.mydorm1.model.Floor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,4 +36,7 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
         where id = ?1
         """)
     void updateFloorStatus(Long id, Status status);
+
+    @Query("select f from Floor f where lower(f.floorTelegramIdentity) = lower(?1) ")
+    Floor findByToken(String token);
 }

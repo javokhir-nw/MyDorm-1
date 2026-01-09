@@ -1,6 +1,7 @@
 package javier.com.mydorm1.model;
 
 import jakarta.persistence.*;
+import javier.com.mydorm1.auth.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,19 +13,21 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "attandences")
-public class Attendance {
+@Table(name = "duties")
+public class Duty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String absentUserIds;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "floor_id")
     private Floor floor;
 
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
     @CreatedDate
-    private Date createdDate;
+    private Date createdDate = new Date();
 }

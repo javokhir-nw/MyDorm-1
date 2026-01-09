@@ -18,7 +18,10 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     void changeStatusToDeleteById(Long id);
 
     @Query("""
-        select r from Room r where r.floor.id = ?1 order by r.number
+        select r from Room r where r.floor.id = ?1 and r.status = 'ACTIVE' order by r.number
         """)
     List<Room> findByFloorId(Long id);
+
+    @Query("select r from Room r where r.status = 'ACTIVE' and r.isRoom = false and r.floor.id = ?1")
+    List<Room> findDutyRoomsByFloorId(Long floorId);
 }
