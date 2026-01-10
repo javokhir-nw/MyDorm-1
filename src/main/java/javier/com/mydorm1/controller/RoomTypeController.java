@@ -21,7 +21,7 @@ public class RoomTypeController {
         return ResponseEntity.ok(roomTypeService.createOrUpdate(dto));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @PreAuthorize("hasAuthority('update room-type')")
     public ResponseEntity<String> update(@RequestBody RoomTypeDto dto){
         return ResponseEntity.ok(roomTypeService.createOrUpdate(dto));
