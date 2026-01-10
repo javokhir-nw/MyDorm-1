@@ -39,4 +39,12 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
 
     @Query("select f from Floor f where lower(f.floorTelegramIdentity) = lower(?1) ")
     Floor findByToken(String token);
+
+    @Modifying
+    @Query("""
+        update Floor
+        set groupId = ?2
+        where id = ?1
+        """)
+    void setGroupIdToFloor(Long floorId, Long groupId);
 }

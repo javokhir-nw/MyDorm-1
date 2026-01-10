@@ -30,6 +30,8 @@ public class Floor {
 
     private String floorTelegramIdentity;
 
+    private String groupId;
+
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 }

@@ -71,6 +71,7 @@ public class RegistrationService {
         user.setTelegramUsername(userTelegramUsername);
         user.setDormitory(floor.getDormitory());
         user.setFloor(floor);
+        user.setChatId(chatId);
         user.setEnabled(Boolean.TRUE);
         user.setStatus(Status.SENT_ROOM);
         users.put(userTelegramId,user);
@@ -142,7 +143,7 @@ public class RegistrationService {
                 user.setStatus(Status.ACTIVE);
                 users.remove(userTgId);
                 userRepository.save(user);
-                return createMessage(chatId,messageId,null,"Muvaffaqqiyatli ro'yhatdan o'tdingiz");
+                return createMessage(chatId,messageId,null,"Muvaffaqqiyatli ro'yhatdan o'tdingiz. Iltimos chatni o'chirib yubormang!");
             }
             default -> {
                 return createMessage(chatId,messageId,null,"Unreachable state. Aloqa uchun: @javokhir_nw");

@@ -33,8 +33,9 @@ public class User implements UserDetails {
     private String middleName;
     private String username;
     private String password;
-    private String telegramUsername;
     private String telegramId;
+    private Long chatId;
+    private String telegramUsername;
     private String phone;
     private Boolean enabled = FALSE;
     private boolean accountNonExpired = TRUE;

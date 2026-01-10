@@ -61,7 +61,7 @@ public class TelegramDutyService {
             keyboard.add(List.of(btn));
         }
         InlineKeyboardButton endBtn = new InlineKeyboardButton("Navbatchilikni tugatish");
-        endBtn.setCallbackData("to_main_menu");
+        endBtn.setCallbackData("end_duty");
         keyboard.add(List.of(endBtn));
         markup.setKeyboard(keyboard);
         return markup;
@@ -100,17 +100,17 @@ public class TelegramDutyService {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         for (User u : users) {
             Room room = u.getRoom();
-            String fullname = new StringBuilder(u.getLastName()).append(" ")
-                    .append(u.getFirstName()).append(" ")
-                    .append(u.getMiddleName()).append(list.contains(u.getId()) ? " ❌" : "").append("  |  ")
-                    .append(room != null ? room.getNumber() + "-xona" : "Xonaga biriktirilmagan")
-                    .append(usersOnDuty.contains(u.getId()) ? "   \uD83D\uDD35" : "").toString();
+            String fullname = u.getLastName() + " " +
+                    u.getFirstName() + " " +
+                    u.getMiddleName() + (list.contains(u.getId()) ? " ❌" : "") + "  |  " +
+                    (room != null ? room.getNumber() + "-xona" : "Xonaga biriktirilmagan") +
+                    (usersOnDuty.contains(u.getId()) ? "   \uD83D\uDD35" : "");
             InlineKeyboardButton btn = new InlineKeyboardButton(fullname);
             btn.setCallbackData("attach:room: " + roomId + " :user_id: " + u.getId());
             keyboard.add(List.of(btn));
         }
         InlineKeyboardButton saveBtn = new InlineKeyboardButton("Yakunlash \uD83D\uDD1A");
-        saveBtn.setCallbackData("/end_duty: " + roomId);
+        saveBtn.setCallbackData("end_duty_room: " + roomId);
         keyboard.add(List.of(saveBtn));
 
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
@@ -120,9 +120,7 @@ public class TelegramDutyService {
 
     public EditMessageText sendUsersListByRoomId(Long chatId, Integer messageId, User user, Long roomId) {
         InlineKeyboardMarkup markup = createUsersList(chatId, user, roomId);
-        Room dutyRoom = roomRepository.findById(roomId).orElseThrow(() -> {
-            throw new RuntimeException("Room is not exist by id on duty");
-        });
+        Room dutyRoom = roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room is not exist by id on duty"));
         RoomType roomType = dutyRoom.getRoomType();
         String text = "Navbatchilik: " + dutyRoom.getNumber() + "-xona " + (roomType != null ? "(" + roomType.getName() + ")" : "");
         EditMessageText edt = new EditMessageText(text);

@@ -21,6 +21,9 @@ public class Utils {
     @Value("${initial.role-admin.code}")
     private String roleAdminCode;
 
+    @Value("${initial.role-captain.code}")
+    private String roleCaptain;
+
     private final UserRepository userRepository;
     public User getCurrentUser() {
         return userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -38,8 +41,13 @@ public class Utils {
 
         return localDate.format(formatter);
     }
-    public User getCurrentUserByTelegramData(Long telegramId,String telegramUsername){
-        return userRepository.findByTelegramUsernameOrTelegramId(telegramUsername,telegramId);
+
+    public Boolean isCaptain(User user){
+        return user!= null && user.getRoles().stream().map(Role::getCode).toList().contains(roleCaptain);
+    }
+
+    public String createMarkdownMention(String name,String userId){
+        return String.format("[%s](tg://user?id=%s)", name, userId);
     }
 
     public List<Long> extractIdsFromString(String text){

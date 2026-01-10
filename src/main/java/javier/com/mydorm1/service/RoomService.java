@@ -1,6 +1,7 @@
 package javier.com.mydorm1.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import javier.com.mydorm1.auth.model.Status;
 import javier.com.mydorm1.dto.*;
 import javier.com.mydorm1.model.Room;
@@ -75,6 +76,7 @@ public class RoomService {
         return createOrUpdate(dto);
     }
 
+    @Transactional
     public String deleteById(Long id) {
         roomRepository.changeStatusToDeleteById(id);
         return "SUCCESS_DELETED";
