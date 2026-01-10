@@ -8,6 +8,7 @@ import javier.com.mydorm1.model.Room;
 import javier.com.mydorm1.repo.AttendanceRepository;
 import javier.com.mydorm1.repo.DutyRepository;
 import javier.com.mydorm1.model.Floor;
+import javier.com.mydorm1.service.AttendanceService;
 import javier.com.mydorm1.telegram.duty.TelegramDutyService;
 import javier.com.mydorm1.util.Utils;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class TelegramBotService {
     private final Map<Long, Set<Long>> absentUsersMap = new LinkedHashMap<>();
     private final Utils utils;
     private final RegistrationService registrationService;
+    private final AttendanceService attendanceService;
 
     @Transactional
     public EditMessageText handleCallBackQuery(CallbackQuery callbackQuery) {
@@ -88,18 +90,16 @@ public class TelegramBotService {
     }
 
     public void finishAttendance(Long chatId, User user) {
-        if (!attendanceRepository.hasCreatedTodayAttendance(user.getFloor().getId(), new Date())) {
-            Set<Long> absents = absentUsersMap.get(chatId);
-            String result = absents.stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(","));
-            Attendance attendance = new Attendance();
-            attendance.setAbsentUserIds(result);
-            attendance.setCreatedDate(new Date());
-            attendance.setFloor(user.getFloor());
-            attendanceRepository.save(attendance);
-            absentUsersMap.remove(chatId);
-        }
+        Attendance attendance = attendanceRepository.getTodayAttendance(user.getFloor().getId(), new Date()).orElse(new Attendance());
+        Set<Long> absents = absentUsersMap.get(chatId);
+        String result = absents.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+        attendance.setAbsentUserIds(result);
+        attendance.setCreatedDate(new Date());
+        attendance.setFloor(user.getFloor());
+        attendanceRepository.save(attendance);
+        absentUsersMap.remove(chatId);
     }
 
     private EditMessageText updateMessage(Long chatId, Integer messageId, InlineKeyboardMarkup inlineKeyboardMarkup, String text) {

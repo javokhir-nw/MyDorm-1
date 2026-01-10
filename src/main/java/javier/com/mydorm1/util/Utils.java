@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -41,6 +40,14 @@ public class Utils {
     }
     public User getCurrentUserByTelegramData(Long telegramId,String telegramUsername){
         return userRepository.findByTelegramUsernameOrTelegramId(telegramUsername,telegramId);
+    }
+
+    public List<Long> extractIdsFromString(String text){
+        if (text != null && !text.isEmpty()){
+            return Arrays.stream(text.split(",")).map(Long::valueOf).toList();
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public String getRandomString(){

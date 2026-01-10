@@ -92,7 +92,21 @@ public class UserMapper {
         userDto.setTelegramUsername(user.getTelegramUsername());
         userDto.setEnabled(user.getEnabled());
         userDto.setStatus(user.getStatus());
+        return userDto;
+    }
 
+    public UserDto toAttendanceUserDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setMiddleName(user.getMiddleName());
+        userDto.setPhone(user.getPhone());
+        Room room = user.getRoom();
+        if (room != null) {
+            userDto.setRoomId(room.getId());
+            userDto.setRoomNumber(room.getNumber());
+        }
         return userDto;
     }
 }

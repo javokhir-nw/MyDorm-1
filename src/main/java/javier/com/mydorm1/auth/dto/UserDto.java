@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import javier.com.mydorm1.auth.model.Permission;
 import javier.com.mydorm1.auth.model.Role;
 import javier.com.mydorm1.auth.model.Status;
+import javier.com.mydorm1.auth.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,11 @@ public class UserDto {
     private String password;
     private String telegramUsername;
     private String phone;
-    private Boolean enabled = FALSE;
+    private Boolean enabled;
     private String token;
-    private List<String> roles = new ArrayList<>();
-    private List<Long> roleIds = new ArrayList<>();
-    private List<Permission> permissions = new ArrayList<>();
+    private List<String> roles;
+    private List<Long> roleIds;
+    private List<Permission> permissions;
     private Status status;
     private Long dormId;
     private String dormName;
@@ -42,4 +43,6 @@ public class UserDto {
     private String floorNumber;
     private Long roomId;
     private String roomNumber;
+
+    private Boolean isAttended;
 }
