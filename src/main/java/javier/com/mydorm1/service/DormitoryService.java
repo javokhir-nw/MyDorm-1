@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import javier.com.mydorm1.auth.model.Status;
 import javier.com.mydorm1.auth.repo.UserRepository;
 import javier.com.mydorm1.dto.*;
-import javier.com.mydorm1.mapper.DormMapper;
 import javier.com.mydorm1.model.Dormitory;
 import javier.com.mydorm1.repo.DormitoryRepository;
 import javier.com.mydorm1.repo.FloorRepository;
@@ -26,7 +25,6 @@ public class DormitoryService {
 
     private final DormitoryRepository dormitoryRepository;
     private final FloorRepository floorRepository;
-    private final DormMapper dormMapper;
     private final UserRepository userRepository;
     private final Utils utils;
 
@@ -75,7 +73,7 @@ public class DormitoryService {
         utils.getCurrentUser();
         Page<Dormitory> page = dormitoryRepository.findAll(value, PageRequest.of(pagination.getPage(), pagination.getSize(), Sort.by(Sort.Direction.ASC, "id")));
         return PageWrapper.builder()
-                .list(page.stream().map(dormMapper::toDormResponseDto).toList())
+                .list(page.stream().map(DormResponseDto::new).toList())
                 .total(page.getTotalElements())
                 .build();
     }
