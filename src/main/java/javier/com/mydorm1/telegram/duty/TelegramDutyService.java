@@ -8,6 +8,7 @@ import javier.com.mydorm1.model.DutyItem;
 import javier.com.mydorm1.model.Room;
 import javier.com.mydorm1.model.RoomType;
 import javier.com.mydorm1.repo.*;
+import javier.com.mydorm1.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -28,6 +29,7 @@ public class TelegramDutyService {
     private final DutyRepository dutyRepository;
     private final DutyItemRepository dutyItemRepository;
     private final FloorRepository floorRepository;
+    private final Utils utils;
     private Map<Long, Map<Long, Set<Long>>> dutyUsers = new LinkedHashMap<>();
 
     @Transactional
@@ -81,11 +83,7 @@ public class TelegramDutyService {
             usersOnDuty = roomUsers.get(roomId);
         } else {
             DutyItem dutyItem = dutyItemRepository.getTodayDutyItemByRoomId(floorId, roomId, new Date());
-            if (dutyItem != null && dutyItem.getDutyUserIds() != null && !dutyItem.getDutyUserIds().isEmpty()){
-                usersOnDuty = Arrays.stream(dutyItem.getDutyUserIds().split(",")).map(Long::valueOf).collect(Collectors.toSet());
-            } else {
-                usersOnDuty = new LinkedHashSet<>();
-            }
+            usersOnDuty = utils.extractIdsFromString(dutyItem.getDutyUserIds());
             roomUsers.put(roomId, usersOnDuty);
         }
         String idsString = attendanceRepository.getAbsentUsersString(floorId, new Date());

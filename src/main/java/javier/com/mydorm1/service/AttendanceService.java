@@ -18,7 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -30,11 +32,15 @@ public class AttendanceService {
 
     public PageWrapper list(Pagination<Search> pagination) {
         Search search = pagination.getSearch();
+        Date date = search.getDate();
+        if (date == null){
+            date = new Date();
+        }
         Page<Attendance> attendancePage = attendanceRepository.list(
                 search.getValue(),
                 search.getDormId(),
                 search.getFloorId(),
-                search.getDate(),
+                date,
                 PageRequest.of(pagination.getPage(),pagination.getSize())
         );
 
@@ -50,7 +56,7 @@ public class AttendanceService {
         Attendance attendance = attendanceRepository.findById(attendanceId).orElseThrow(() -> new RuntimeException("Navbatchilik id boyicha topilmadi"));
         Long floorId = attendance.getFloor().getId();
         AttendanceDto response = new AttendanceDto(attendance);
-        List<Long> absentUserIds = utils.extractIdsFromString(attendance.getAbsentUserIds());
+        Set<Long> absentUserIds = utils.extractIdsFromString(attendance.getAbsentUserIds());
         List<UserDto> list = userRepository.findAllUsersFetchRoomByFloorId(floorId).stream().map(
                 u -> {
                     UserDto dto = userMapper.toAttendanceUserDto(u);

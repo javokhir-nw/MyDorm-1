@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -50,11 +51,11 @@ public class Utils {
         return String.format("[%s](tg://user?id=%s)", name, userId);
     }
 
-    public List<Long> extractIdsFromString(String text){
+    public Set<Long> extractIdsFromString(String text){
         if (text != null && !text.isEmpty()){
-            return Arrays.stream(text.split(",")).map(Long::valueOf).toList();
+            return Arrays.stream(text.split(",")).map(Long::valueOf).collect(Collectors.toSet());
         } else {
-            return new ArrayList<>();
+            return new LinkedHashSet<>();
         }
     }
 

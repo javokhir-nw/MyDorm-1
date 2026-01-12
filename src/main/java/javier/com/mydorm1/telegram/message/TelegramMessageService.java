@@ -66,7 +66,7 @@ public class TelegramMessageService {
             sb.append("\uD83D\uDD18 ").append(room.getNumber()).append("-xona")
                     .append("  (").append(room.getRoomType().getName()).append(") \n");
             int i = 1;
-            List<Long> usersOnDuty = utils.extractIdsFromString(di.getDutyUserIds());
+            Set<Long> usersOnDuty = utils.extractIdsFromString(di.getDutyUserIds());
             for (User u : users) {
                 if (usersOnDuty.contains(u.getId())) {
                     String name = utils.createMarkdownMention(

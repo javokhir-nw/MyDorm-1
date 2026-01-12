@@ -14,5 +14,5 @@ public class Search {
     private Long dormId;
     private Long floorId;
     private Long roomId;
-    private Date date = new Date();
+    private Date date;
 }
