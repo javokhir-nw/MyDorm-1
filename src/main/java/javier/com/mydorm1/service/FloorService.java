@@ -37,6 +37,11 @@ public class FloorService {
         if (name != null) {
             fl.setName(name);
         }
+
+        String randomString = dto.getRandomString();
+        if(randomString != null && !randomString.isEmpty()){
+            fl.setFloorTelegramIdentity(randomString);
+        }
         Long leaderId = dto.getLeaderId();
         if (leaderId != null) {
             fl.setLeader(userRepository.findById(leaderId).orElseThrow(() -> new EntityNotFoundException("User is not found")));
