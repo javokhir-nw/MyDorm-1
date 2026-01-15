@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     private final String[] WHITE_LIST = {
             "/auth/**",
-            "/utils/test"
+            "/util/test"
     };
 
     public SecurityConfig(JwtFilter jwtFilter) {
