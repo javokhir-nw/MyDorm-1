@@ -72,7 +72,9 @@ public class TelegramBotService {
                     "Davomat ( " + utils.formatDateDDMMYYYY(new Date()) + " )"
             );
         } else if (url.equals("/end_attendance")) {
-            telegramResponse.getSendMessages().add(finishAttendance(chatId, user));
+            SendMessage e = finishAttendance(chatId, user);
+            if (e != null)
+                telegramResponse.getSendMessages().add(e);
             edt = updateMessage(
                     chatId,
                     messageId,
@@ -90,16 +92,16 @@ public class TelegramBotService {
             edt = telegramDutyService.endDuty(messageId, chatId, user.getFloor().getId(), user, Long.valueOf(url.split(" ")[1]));
         } else if (url.equals("end_duty")) {
             String floorGroupId = user.getFloor().getGroupId();
-            SendMessage m = createMessage(floorGroupId, null, null, telegramMessageService.sendDutyReportToGroup(user));
-            m.setParseMode("Markdown");
-            telegramResponse.getSendMessages().add(
-                    m
-            );
+            if (floorGroupId != null) {
+                SendMessage m = createMessage(floorGroupId, null, null, telegramMessageService.sendDutyReportToGroup(user));
+                m.setParseMode("Markdown");
+                telegramResponse.getSendMessages().add(m);
+            }
             edt = telegramDutyService.createUpdateMessage(chatId, messageId, null, "Muvaffaqqiyatli saqlandi");
         } else if (url.contains("registration:")) {
             edt = registrationService.handleRegistrationCallBackQueries(callbackQuery);
         } else {
-            edt = updateMessage(chatId,messageId,null,"UnreachableState");
+            edt = updateMessage(chatId, messageId, null, "UnreachableState");
         }
         telegramResponse.getEditMessageText().add(edt);
         return telegramResponse;
@@ -113,7 +115,7 @@ public class TelegramBotService {
         Floor floor = user.getFloor();
         Long floorId = floor.getId();
         Attendance attendance = attendanceRepository.getTodayAttendance(floorId, new Date()).orElse(new Attendance());
-        Set<Long> absents = absentUsersMap.get(chatId);
+        Set<Long> absents = absentUsersMap.getOrDefault(chatId,new HashSet<>());
         String result = absents.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
@@ -122,9 +124,13 @@ public class TelegramBotService {
         attendance.setFloor(floor);
         attendance = attendanceRepository.save(attendance);
         absentUsersMap.remove(chatId);
-        SendMessage message = createMessage(floor.getGroupId(), null, null, telegramMessageService.sendAttendanceReportToChat(attendance, absents));
-        message.setParseMode("Markdown");
-        return message;
+        String groupId = floor.getGroupId();
+        if (groupId != null) {
+            SendMessage message = createMessage(groupId, null, null, telegramMessageService.sendAttendanceReportToChat(attendance, absents));
+            message.setParseMode("Markdown");
+            return message;
+        }
+        return null;
     }
 
     private EditMessageText updateMessage(Long chatId, Integer messageId, InlineKeyboardMarkup inlineKeyboardMarkup, String text) {
@@ -156,7 +162,7 @@ public class TelegramBotService {
         if (hasToken(text)) {
             String token = text.split(" ")[1];
             return registrationService.registerUser(token, chatId, userTelegramId, userTelegramUsername, message.getMessageId());
-        } else{
+        } else {
             return handleMessage(message);
         }
     }
@@ -178,14 +184,14 @@ public class TelegramBotService {
         Long chatId = message.getChatId();
         Integer messageId = message.getMessageId();
         ChatShared chatShared = message.getChatShared();
-        if (chatShared != null){
-            connectGroupToFloor(user.getFloor().getId(),chatShared.getChatId());
+        if (chatShared != null) {
+            connectGroupToFloor(user.getFloor().getId(), chatShared.getChatId());
             return createMessage(chatId.toString(), messageId, menuMarkup(), "✅ Guruh muvaffaqqiyatli biriktirildi! \n \uD83D\uDD18 Keyingi qadam botni guruhga admin qiling");
         }
         switch (text) {
             case "/start" -> {
-                if (!utils.isCaptain(user)){
-                    return createMessage(chatId.toString(),messageId,null,"Sizdan botdan foydalanishga huquq yo'q. Murojaat uchun @javokhir_nw");
+                if (!utils.isCaptain(user)) {
+                    return createMessage(chatId.toString(), messageId, null, "Sizdan botdan foydalanishga huquq yo'q. Murojaat uchun @javokhir_nw");
                 }
                 return handleStart(message);
             }
@@ -210,7 +216,7 @@ public class TelegramBotService {
                         .resizeKeyboard(true)
                         .oneTimeKeyboard(true)
                         .build();
-                return createMessage(chatId.toString(), messageId,markup,"ASD");
+                return createMessage(chatId.toString(), messageId, markup, "ASD");
             }
             default -> {
                 return registrationService.handleRegisterAnswers(message);
@@ -219,7 +225,7 @@ public class TelegramBotService {
     }
 
     public void connectGroupToFloor(Long floorId, Long groupId) {
-        floorRepository.setGroupIdToFloor(floorId,groupId);
+        floorRepository.setGroupIdToFloor(floorId, groupId);
     }
 
 
@@ -268,7 +274,7 @@ public class TelegramBotService {
         return createMessage(message.getChatId().toString(), message.getMessageId(), menuMarkup(), "Tizimga xush kelibsiz");
     }
 
-    public ReplyKeyboardMarkup menuMarkup(){
+    public ReplyKeyboardMarkup menuMarkup() {
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
         KeyboardButton btn1 = new KeyboardButton("Davomat");
         KeyboardButton btn2 = new KeyboardButton("Navbatchilik");

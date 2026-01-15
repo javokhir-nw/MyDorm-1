@@ -63,4 +63,7 @@ public class Utils {
         return UUID.randomUUID().toString().replace("-","");
     }
 
+    public Date test() {
+       return userRepository.selectNow();
+    }
 }

@@ -33,7 +33,8 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
 
     private final String[] WHITE_LIST = {
-            "/auth/**"
+            "/auth/**",
+            "/utils/test"
     };
 
     public SecurityConfig(JwtFilter jwtFilter) {
@@ -72,7 +73,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(
                 List.of(
                         "http://localhost:3000",
-                        "https://mening-yotoqxonam.onrender.com"
+                        "https://mening-yotoqxonam.onrender.com",
+                        "https://dashboard.uptimerobot.com"
                 ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));

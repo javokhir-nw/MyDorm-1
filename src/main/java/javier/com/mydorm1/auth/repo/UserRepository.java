@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,4 +65,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u left join fetch u.room where u.floor.id = ?1 order by u.room.number ")
     List<User> findAllPresentUsers(Long floorId);
+
+    @Query(value = "select now()",nativeQuery = true)
+    Date selectNow();
 }

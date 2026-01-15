@@ -83,7 +83,7 @@ public class TelegramDutyService {
             usersOnDuty = roomUsers.get(roomId);
         } else {
             DutyItem dutyItem = dutyItemRepository.getTodayDutyItemByRoomId(floorId, roomId, new Date());
-            usersOnDuty = utils.extractIdsFromString(dutyItem.getDutyUserIds());
+            usersOnDuty = dutyItem != null ? utils.extractIdsFromString(dutyItem.getDutyUserIds()) : new HashSet<>();
             roomUsers.put(roomId, usersOnDuty);
         }
         String idsString = attendanceRepository.getAbsentUsersString(floorId, new Date());

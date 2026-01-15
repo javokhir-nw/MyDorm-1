@@ -21,7 +21,7 @@ public class FloorResponseDto {
     private String leaderMiddleName;
     private Long dormitoryId;
     private String dormitoryName;
-    private String randomString;
+    private String randString;
     private List<RoomResponseDto> rooms;
     public FloorResponseDto(Floor floor) {
         id =  floor.getId();
@@ -33,7 +33,7 @@ public class FloorResponseDto {
             leaderLastName = leader.getLastName();
             leaderMiddleName = leader.getMiddleName();
         }
-        randomString = floor.getFloorTelegramIdentity();
+        randString = floor.getFloorTelegramIdentity();
         Dormitory dorm = floor.getDormitory();
         if (dorm != null) {
             dormitoryId = dorm.getId();

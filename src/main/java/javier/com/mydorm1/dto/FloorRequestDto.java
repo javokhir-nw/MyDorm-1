@@ -12,5 +12,5 @@ public class FloorRequestDto {
     private String name;
     private Long leaderId;
     private Long dormId;
-    private String randomString;
+    private String randString;
 }

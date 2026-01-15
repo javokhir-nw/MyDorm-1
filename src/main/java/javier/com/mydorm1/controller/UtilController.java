@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/util")
@@ -18,5 +20,10 @@ public class UtilController {
     @PreAuthorize("hasAuthority('generate randomString')")
     public ResponseEntity<String> generateRandString(){
         return ResponseEntity.ok(utils.getRandomString());
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Date> test(){
+        return ResponseEntity.ok(utils.test());
     }
 }

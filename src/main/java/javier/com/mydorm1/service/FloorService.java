@@ -38,7 +38,7 @@ public class FloorService {
             fl.setName(name);
         }
 
-        String randomString = dto.getRandomString();
+        String randomString = dto.getRandString();
         if(randomString != null && !randomString.isEmpty()){
             fl.setFloorTelegramIdentity(randomString);
         }
