@@ -47,8 +47,8 @@ public class Utils {
         return user!= null && user.getRoles().stream().map(Role::getCode).toList().contains(roleCaptain);
     }
 
-    public String createMarkdownMention(String name,String userId){
-        return String.format("[%s](tg://user?id=%s)", name, userId);
+    public String createMarkdownMention(String name, String userId) {
+        return "<a href=\"tg://user?id=" + userId + "\">" + name + "</a>";
     }
 
     public Set<Long> extractIdsFromString(String text){

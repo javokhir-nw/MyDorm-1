@@ -94,7 +94,7 @@ public class TelegramBotService {
             String floorGroupId = user.getFloor().getGroupId();
             if (floorGroupId != null) {
                 SendMessage m = createMessage(floorGroupId, null, null, telegramMessageService.sendDutyReportToGroup(user));
-                m.setParseMode("Markdown");
+                m.setParseMode("HTML");
                 telegramResponse.getSendMessages().add(m);
             }
             edt = telegramDutyService.createUpdateMessage(chatId, messageId, null, "Muvaffaqqiyatli saqlandi");
@@ -127,7 +127,7 @@ public class TelegramBotService {
         String groupId = floor.getGroupId();
         if (groupId != null) {
             SendMessage message = createMessage(groupId, null, null, telegramMessageService.sendAttendanceReportToChat(attendance, absents));
-            message.setParseMode("Markdown");
+            message.setParseMode("HTML");
             return message;
         }
         return null;

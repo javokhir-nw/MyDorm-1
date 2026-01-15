@@ -24,7 +24,7 @@ public interface FloorRepository extends JpaRepository<Floor, Long> {
 
     @Query(
             """
-        select f from Floor f where f.dormitory.id = ?1 order by f.id
+        select f from Floor f where f.status = 'ACTIVE' and f.dormitory.id = ?1 order by f.id
         """
     )
     List<Floor> findAllByDormId(Long dormId);
