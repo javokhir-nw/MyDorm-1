@@ -136,6 +136,7 @@ public class RegistrationService {
                 KeyboardRow row = new KeyboardRow();
                 row.add(phone);
                 markup.setKeyboard(List.of(row));
+                markup.setResizeKeyboard(true); // Buttonlarni kichik qiladi
                 return createMessage(chatId,messageId,markup,"Raqamingizni jo'nating");
             }
             case SENT_PNUMBER -> {

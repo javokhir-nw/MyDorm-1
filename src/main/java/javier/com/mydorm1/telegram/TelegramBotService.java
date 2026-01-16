@@ -256,8 +256,7 @@ public class TelegramBotService {
         for (User u : users) {
             Room room = u.getRoom();
             String fullname = new StringBuilder(u.getLastName()).append(" ")
-                    .append(u.getFirstName()).append(" ")
-                    .append(u.getMiddleName()).append("  |  ")
+                    .append(u.getFirstName()).append("  |  ")
                     .append(room != null ? room.getNumber() + "-xona" : "Xonaga biriktirilmagan").append("  |  ")
                     .append(absentUsers.contains(u.getId()) ? "❌" : "✅").toString();
             InlineKeyboardButton btn = new InlineKeyboardButton(fullname);
@@ -283,6 +282,7 @@ public class TelegramBotService {
         KeyboardRow r1 = new KeyboardRow(List.of(btn1, btn2));
         KeyboardRow r2 = new KeyboardRow(List.of(btn3, btn4));
         markup.setKeyboard(List.of(r1, r2));
+        markup.setResizeKeyboard(true); // Buttonlarni kichik qiladi
         return markup;
     }
 

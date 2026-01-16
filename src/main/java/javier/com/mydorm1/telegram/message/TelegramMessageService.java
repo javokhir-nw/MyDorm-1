@@ -33,8 +33,7 @@ public class TelegramMessageService {
         int i = 1;
         for (User u : users) {
             String name = u.getLastName() + " " +
-                    u.getFirstName() + " " +
-                    u.getMiddleName();
+                    u.getFirstName();
             if (absents.contains(u.getId())){
                 name = utils.createMarkdownMention(name,u.getTelegramId());
             }
@@ -71,8 +70,7 @@ public class TelegramMessageService {
                 if (usersOnDuty.contains(u.getId())) {
                     String name = utils.createMarkdownMention(
                             u.getLastName() + " " +
-                                    u.getFirstName() + " " +
-                                    u.getMiddleName() + " ",
+                                    u.getFirstName() + " ",
                             u.getTelegramId()
                     );
                     sb.append(i++).append(") ")

@@ -99,8 +99,7 @@ public class TelegramDutyService {
         for (User u : users) {
             Room room = u.getRoom();
             String fullname = u.getLastName() + " " +
-                    u.getFirstName() + " " +
-                    u.getMiddleName() + (list.contains(u.getId()) ? " ❌" : "") + "  |  " +
+                    u.getFirstName() + (list.contains(u.getId()) ? " ❌" : "") + "  |  " +
                     (room != null ? room.getNumber() + "-xona" : "Xonaga biriktirilmagan") +
                     (usersOnDuty.contains(u.getId()) ? "   \uD83D\uDD35" : "");
             InlineKeyboardButton btn = new InlineKeyboardButton(fullname);
