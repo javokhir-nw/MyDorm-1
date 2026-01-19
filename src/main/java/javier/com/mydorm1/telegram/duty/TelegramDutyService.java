@@ -52,13 +52,8 @@ public class TelegramDutyService {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         for (Room r : rooms) {
-            String number = r.getNumber();
-            String roomTypeName = "";
-            if (r.getRoomType() != null) {
-                roomTypeName = r.getRoomType().getName();
-            }
             InlineKeyboardButton btn = new InlineKeyboardButton();
-            btn.setText(number + "-xona (" + roomTypeName + ")" + "  [ + ]");
+            btn.setText(r.getName() + "  [ + ]");
             btn.setCallbackData("duty:room: " + r.getId());
             keyboard.add(List.of(btn));
         }
@@ -118,8 +113,7 @@ public class TelegramDutyService {
     public EditMessageText sendUsersListByRoomId(Long chatId, Integer messageId, User user, Long roomId) {
         InlineKeyboardMarkup markup = createUsersList(chatId, user, roomId);
         Room dutyRoom = roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room is not exist by id on duty"));
-        RoomType roomType = dutyRoom.getRoomType();
-        String text = "Navbatchilik: " + dutyRoom.getNumber() + "-xona " + (roomType != null ? "(" + roomType.getName() + ")" : "");
+        String text = "Navbatchilik: " + dutyRoom.getName();
         EditMessageText edt = new EditMessageText(text);
         edt.setMessageId(messageId);
         edt.setChatId(chatId);
@@ -168,10 +162,10 @@ public class TelegramDutyService {
         dutyItem.setRoom(roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Duty saqlashda roomId boyicha room topilmadi")));
         dutyItemRepository.save(dutyItem);
         dutyUsers.get(chatId).remove(roomId);
-        return createUpdateMessage(chatId,messageId,createRoomsList(floorId),"Navbatchilik xonalari");
+        return createUpdateMessage(chatId, messageId, createRoomsList(floorId), "Navbatchilik xonalari");
     }
 
-    public EditMessageText createUpdateMessage(Long chatId,Integer messageId, InlineKeyboardMarkup markup, String text) {
+    public EditMessageText createUpdateMessage(Long chatId, Integer messageId, InlineKeyboardMarkup markup, String text) {
         EditMessageText edt = new EditMessageText(text);
         edt.setMessageId(messageId);
         edt.setChatId(chatId);
