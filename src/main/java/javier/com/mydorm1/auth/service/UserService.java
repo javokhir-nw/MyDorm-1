@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -52,10 +53,10 @@ public class UserService {
             Role role = roleService.getById(roleId);
             if (role.getCode().equals(roleAdminCode)){
                 if (utils.isAdmin()){
-                    user.getRoles().add(role);
+                    user.setRoles(Set.of(role));
                 }
             } else {
-                user.getRoles().add(role);
+                user.setRoles(Set.of(role));
             }
         }
         Long dormId = dto.getDormId();
