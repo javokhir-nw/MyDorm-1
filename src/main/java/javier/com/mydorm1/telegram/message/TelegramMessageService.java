@@ -62,7 +62,7 @@ public class TelegramMessageService {
         List<User> users = userRepository.findAllUsersFetchRoomByFloorId(floorId);
         for (DutyItem di : dutyItems) {
             Room room = di.getRoom();
-            sb.append("\uD83D\uDD18 ").append(room.getName()).append(") \n");
+            sb.append("\uD83D\uDD18 ").append(room.getName()).append("\n");
             int i = 1;
             Set<Long> usersOnDuty = utils.extractIdsFromString(di.getDutyUserIds());
             for (User u : users) {
