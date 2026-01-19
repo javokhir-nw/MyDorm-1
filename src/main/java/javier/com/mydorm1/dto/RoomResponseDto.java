@@ -16,12 +16,14 @@ public class RoomResponseDto {
     private Integer capacity = 0;
     private Long roomTypeId;
     private String roomTypeName;
+    private Boolean isRoom = Boolean.TRUE;
 
     public RoomResponseDto(Room room) {
         id = room.getId();
         name = room.getName();
         number = room.getNumber();
         capacity = room.getCapacity();
+        isRoom = room.getIsRoom();
         RoomType roomType = room.getRoomType();
         if (roomType != null) {
             roomTypeId = roomType.getId();

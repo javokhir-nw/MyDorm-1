@@ -144,7 +144,11 @@ public class RegistrationService {
                 user.setStatus(Status.ACTIVE);
                 users.remove(userTgId);
                 userRepository.save(user);
-                return createMessage(chatId,messageId,null,"Muvaffaqqiyatli ro'yhatdan o'tdingiz. Iltimos chatni o'chirib yubormang!");
+                return createMessage(chatId,messageId,null,"""
+            Muvaffaqqiyatli ro'yhatdan o'tdingiz.
+            Iltimos chatni o'chirib yubormang! Guruhda muhim habarlarni olish uchun:
+            Settings -> Privacy and Security -> Forwarded Messages ni Everybody ga o'zgartiring!
+            """);
             }
             default -> {
                 return createMessage(chatId,messageId,null,"Unreachable state. Aloqa uchun: @javokhir_nw");
