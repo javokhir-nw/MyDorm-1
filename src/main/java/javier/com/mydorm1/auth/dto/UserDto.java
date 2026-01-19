@@ -45,4 +45,11 @@ public class UserDto {
     private String roomNumber;
 
     private Boolean isAttended;
+
+    public UserDto(User user) {
+        id = user.getId();
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
+        middleName = user.getMiddleName();
+    }
 }

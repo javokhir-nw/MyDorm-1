@@ -20,10 +20,6 @@ public class Floor {
 
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "leader_id")
-    private User leader;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dormitory_id")
     private Dormitory dormitory;

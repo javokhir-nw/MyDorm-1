@@ -3,6 +3,7 @@ package javier.com.mydorm1.service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import javier.com.mydorm1.auth.model.Status;
+import javier.com.mydorm1.auth.model.User;
 import javier.com.mydorm1.auth.repo.UserRepository;
 import javier.com.mydorm1.dto.*;
 import javier.com.mydorm1.model.Dormitory;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +66,10 @@ public class DormitoryService {
     public DormResponseDto getById(Long id) {
         Dormitory dorm = dormitoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Dormitory not found"));
         DormResponseDto dto = new DormResponseDto(dorm);
-        dto.setFloors(floorRepository.findAllByDormId(id).stream().map(FloorResponseDto::new).toList());
+        Map<Long, List<User>> allCaptains = userRepository.findAllCaptains().stream()
+                .filter(u -> u.getFloor() != null)
+                .collect(Collectors.groupingBy(u -> u.getFloor().getId()));
+        dto.setFloors(floorRepository.findAllByDormId(id).stream().map(fl -> new FloorResponseDto(fl,allCaptains.get(fl.getId()))).toList());
         return dto;
     }
 

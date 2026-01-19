@@ -216,7 +216,7 @@ public class TelegramBotService {
                         .resizeKeyboard(true)
                         .oneTimeKeyboard(true)
                         .build();
-                return createMessage(chatId.toString(), messageId, markup, "ASD");
+                return createMessage(chatId.toString(), messageId, markup, "Guruhni tanlang");
             }
             default -> {
                 return registrationService.handleRegisterAnswers(message);

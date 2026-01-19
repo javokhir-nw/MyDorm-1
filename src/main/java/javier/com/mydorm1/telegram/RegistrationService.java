@@ -81,7 +81,7 @@ public class RegistrationService {
     public InlineKeyboardMarkup createRoomsList(Long floorId){
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<Room> rooms = roomRepository.findByFloorId(floorId);
+        List<Room> rooms = roomRepository.findAllBedroomByFloorId(floorId);
         for (Room room: rooms){
             String number = room.getNumber();
             String name = number + "-xona";

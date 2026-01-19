@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 
 @Repository
@@ -68,4 +68,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select now()",nativeQuery = true)
     Date selectNow();
+
+    @Query(value = """
+            select u.* from users u
+            left join user_roles ur on ur.user_id = u.id
+            left join roles r on r.id = ur.role_id
+            where u.status = 'ACTIVE' and r.code = 'ROLE_CAPTAIN' and u.floor_id is not null
+            """, nativeQuery = true)
+    List<User> findAllCaptains();
 }

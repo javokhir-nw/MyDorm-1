@@ -22,6 +22,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         """)
     List<Room> findByFloorId(Long id);
 
+    @Query("""
+        select r from Room r where r.floor.id = ?1 and r.isRoom = true and r.status = 'ACTIVE' order by r.number
+        """)
+    List<Room> findAllBedroomByFloorId(Long id);
+
     @Query("select r from Room r where r.status = 'ACTIVE' and r.isRoom = false and r.floor.id = ?1")
     List<Room> findDutyRoomsByFloorId(Long floorId);
 }

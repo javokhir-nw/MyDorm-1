@@ -3,6 +3,7 @@ package javier.com.mydorm1.service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import javier.com.mydorm1.auth.model.Status;
+import javier.com.mydorm1.auth.model.User;
 import javier.com.mydorm1.auth.repo.UserRepository;
 import javier.com.mydorm1.dto.*;
 import javier.com.mydorm1.model.Floor;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,10 +45,6 @@ public class FloorService {
         if(randomString != null && !randomString.isEmpty()){
             fl.setFloorTelegramIdentity(randomString);
         }
-        Long leaderId = dto.getLeaderId();
-        if (leaderId != null) {
-            fl.setLeader(userRepository.findById(leaderId).orElseThrow(() -> new EntityNotFoundException("User is not found")));
-        }
         Long dormId = dto.getDormId();
         if (dormId != null) {
             fl.setDormitory(dormitoryRepository.findById(dormId).orElseThrow(() -> new EntityNotFoundException("Dormitory is not found")));
@@ -66,8 +65,11 @@ public class FloorService {
     public PageWrapper getList(Long dormId, Pagination<Search> pagination) {
         Search search = pagination.getSearch();
         String value = search.getValue();
+        Map<Long, List<User>> allCaptains = userRepository.findAllCaptains().stream()
+                .filter(u -> u.getFloor() != null)
+                .collect(Collectors.groupingBy(u -> u.getFloor().getId()));
         Page<Floor> floors = floorRepository.findAllByDormId(dormId,value, PageRequest.of(pagination.getPage(),pagination.getSize()));
-        List<FloorResponseDto> list = floors.stream().map(FloorResponseDto::new).toList();
+        List<FloorResponseDto> list = floors.stream().map(f -> new FloorResponseDto(f,allCaptains.get(f.getId()))).toList();
         return PageWrapper.builder().total(floors.getTotalElements())
                 .totalPages(floors.getTotalPages()).list(list).build();
     }
