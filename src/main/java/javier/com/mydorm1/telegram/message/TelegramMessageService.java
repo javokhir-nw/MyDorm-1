@@ -62,23 +62,25 @@ public class TelegramMessageService {
         List<User> users = userRepository.findAllUsersFetchRoomByFloorId(floorId);
         for (DutyItem di : dutyItems) {
             Room room = di.getRoom();
-            sb.append("\uD83D\uDD18 ").append(room.getName()).append("\n");
-            int i = 1;
             Set<Long> usersOnDuty = utils.extractIdsFromString(di.getDutyUserIds());
-            for (User u : users) {
-                if (usersOnDuty.contains(u.getId())) {
-                    String name = utils.createMarkdownMention(
-                            u.getLastName() + " " +
-                                    u.getFirstName() + " ",
-                            u.getTelegramId()
-                    );
-                    sb.append(i++).append(") ")
-                            .append(name)
-                            .append(" ").append(u.getRoom().getNumber()).append("-xona")
-                            .append("\n");
+            if (usersOnDuty != null && !usersOnDuty.isEmpty()){
+                sb.append("\uD83D\uDD18 ").append(room.getName()).append("\n");
+                int i = 1;
+                for (User u : users) {
+                    if (usersOnDuty.contains(u.getId())) {
+                        String name = utils.createMarkdownMention(
+                                u.getLastName() + " " +
+                                        u.getFirstName() + " ",
+                                u.getTelegramId()
+                        );
+                        sb.append(i++).append(") ")
+                                .append(name)
+                                .append(" ").append(u.getRoom().getNumber()).append("-xona")
+                                .append("\n");
+                    }
                 }
+                sb.append("\n");
             }
-            sb.append("\n");
         }
 
         return sb.toString();
