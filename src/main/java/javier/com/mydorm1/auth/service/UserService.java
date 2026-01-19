@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -51,12 +52,14 @@ public class UserService {
         Long roleId = dto.getRoleId();
         if (roleId != null){
             Role role = roleService.getById(roleId);
+            Set<Role> roleSet = new HashSet<>();
+            roleSet.add(role);
             if (role.getCode().equals(roleAdminCode)){
                 if (utils.isAdmin()){
-                    user.setRoles(Set.of(role));
+                    user.setRoles(roleSet);
                 }
             } else {
-                user.setRoles(Set.of(role));
+                user.setRoles(roleSet);
             }
         }
         Long dormId = dto.getDormId();
