@@ -25,7 +25,7 @@ public class RoleService {
     }
 
     public List<RoleDto> getList() {
-        return roleRepository.findAll().stream().map(RoleDto::new).toList();
+        return roleRepository.findAll().stream().filter(r -> r.getCode() != null && !r.getCode().equals("ROLE_ADMIN")).map(RoleDto::new).toList();
     }
 
     public String createOrUpdate(RoleDto dto) {
