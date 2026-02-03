@@ -41,7 +41,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         (?3 is null or u.floor.id = ?3) and
         u.status = 'ACTIVE' and u.username != 'admin' and
         (?4 is null or u.room.id = ?4)
-        order by u.id
+        order by u.lastName,u.firstName,u.middleName,u.id desc
         """)
     Page<User> findAllByPagination(String value, Long dormId, Long floorId, Long roomId, Pageable of);
 
