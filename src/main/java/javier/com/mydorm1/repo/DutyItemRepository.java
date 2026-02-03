@@ -19,4 +19,7 @@ public interface DutyItemRepository extends JpaRepository<DutyItem, Long> {
             """
     )
     List<DutyItem> getTodayDutyItemsByFloorId(Long floorId, Date date);
+
+    @Query("select di from DutyItem di where di.duty.id = ?1")
+    List<DutyItem> getByDutyItem(Long id);
 }

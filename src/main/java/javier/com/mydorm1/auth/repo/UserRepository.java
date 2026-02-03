@@ -1,5 +1,6 @@
 package javier.com.mydorm1.auth.repo;
 
+import javier.com.mydorm1.auth.dto.UserDto;
 import javier.com.mydorm1.auth.model.Status;
 import javier.com.mydorm1.auth.model.User;
 import org.springframework.data.domain.Page;
@@ -76,4 +77,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             where u.status = 'ACTIVE' and r.code = 'ROLE_CAPTAIN' and u.floor_id is not null
             """, nativeQuery = true)
     List<User> findAllCaptains();
+
+    @Query("select new javier.com.mydorm1.auth.dto.UserDto(u) from User u where u.id in (?1)")
+    List<UserDto> findAllByIds(Set<Long> dutyUserIds);
 }
