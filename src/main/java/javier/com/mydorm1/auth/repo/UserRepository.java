@@ -39,7 +39,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         ) and
         (?2 is null or u.dormitory.id = ?2) and
         (?3 is null or u.floor.id = ?3) and
-        u.status = 'ACTIVE' and u.username != 'admin' and
+        u.status = 'ACTIVE' and  (u.username is null or u.username != 'admin') and
         (?4 is null or u.room.id = ?4)
         order by u.lastName,u.firstName,u.middleName,u.id desc
         """)
